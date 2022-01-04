@@ -1,3 +1,5 @@
+import {  toast } from 'react-toastify';
+
 export const signup=(data)=>{
     return async (dispatch)=>{
         try{
@@ -20,6 +22,7 @@ export const signup=(data)=>{
 }
 
 export const login=(data)=>{
+
     return async (dispatch)=>{
         try{
             const res=await fetch("http://localhost:5000/user/login",{
@@ -31,9 +34,12 @@ export const login=(data)=>{
             });
             const json=await res.json();
             if(json.success===true){
+               toast.success("Successfully LoggedIn")
                localStorage.setItem('token',json.token);
+               await dispatch(userProfile());
                dispatch(setState(true));
-               dispatch(userProfile());
+            }else{
+                toast.warn("Invalid Credentials")
             }
         }catch(error){
             console.log(error);
@@ -112,6 +118,222 @@ export const updateProfile=(id,name,avatar)=>{
     }
 }
 
+export const createPost=(content,file)=>{
+    return async (dispatch)=>{
+        let fd=new FormData();
+        fd.append('Postfile',file);
+
+         fd.append('content',content);
+    
+        try{
+            const res=await fetch(`http://localhost:5000/posts/create`,{
+                method:'POST',
+                headers:{
+                    // 'Content-Type': 'multipart/form-data',
+                    'auth-token':localStorage.getItem('token')
+                },
+                body:fd
+            });
+            const json=await res.json();
+            if(json.success===true){
+                dispatch(getallPost());
+            }
+        }catch(error){
+            console.log(error);
+        }
+    }
+}
+
+export const getallPost=()=>{
+    return async (dispatch)=>{
+        try{
+            const res=await fetch("http://localhost:5000/posts/allpost",{
+                method:'GET',
+                headers:{
+                    'auth-token':localStorage.getItem('token')
+                },
+            });
+            const json=await res.json();
+            if(json.success===true){
+                dispatch(allPost(json.post));
+            }
+        }catch(error){
+            console.log(error);
+        }
+    }
+}
+
+export const Createcomment= (id,comment,userid=null)=>{
+    return async (dispatch)=>{
+        try{
+            const res=await fetch("http://localhost:5000/comments/create",{
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'auth-token':localStorage.getItem('token')
+                },
+                body:JSON.stringify({content:comment,post:id})
+            });
+            const json=await res.json();
+            if(json.success===true){
+                toast.success('Commented Successfully');
+                if(userid){
+                    dispatch(getpostbyId(userid));
+                }
+                dispatch(getallPost());
+            }else{
+                toast.warn("Comments Required");
+            }
+        }catch(error){
+            console.log(error);
+        }
+    }
+}
+
+export const getpostbyId= (id)=>{
+    return async (dispatch)=>{
+        try{
+            const res=await fetch(`http://localhost:5000/posts/getpost/${id}`,{
+                method:'GET',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'auth-token':localStorage.getItem('token')
+                },
+            });
+            const json=await res.json();
+            if(json.success===true){
+                dispatch(postbyId(json.post.posts));
+            }
+        }catch(error){
+            console.log(error);
+        }
+    }
+}
+
+export const deleteAvatar=(id)=>{
+    return async(dispatch)=>{
+        try{
+            const res=await fetch(`http://localhost:5000/user/deleteAvatar/${id}`,{
+                method:'DELETE',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'auth-token':localStorage.getItem('token')
+                },
+            });
+            const json=await res.json();
+            if(json.success===true){
+                toast.success('Deleted Successfully');
+                dispatch(userProfile());
+            }
+        }catch(error){
+            console.log(error);
+        }
+    }
+}
+
+export const updatePost=(content,file,id,userid=null)=>{
+    return async (dispatch)=>{
+        let fd=new FormData();
+        fd.append('Postfile',file);
+
+         fd.append('content',content);
+    
+        try{
+            const res=await fetch(`http://localhost:5000/posts/update/${id}`,{
+                method:'PUT',
+                headers:{
+                    // 'Content-Type': 'multipart/form-data',
+                    'auth-token':localStorage.getItem('token')
+                },
+                body:fd
+            });
+            const json=await res.json();
+            if(json.success===true){
+                toast.success('Updated Successfully');
+                dispatch(getallPost());
+                if(userid){
+                    dispatch(getpostbyId(userid));
+                }
+            }
+        }catch(error){
+            console.log(error);
+        }
+    }
+}
+
+export const updateComment=(content,id,userid=null)=>{
+    return async (dispatch)=>{
+        try{
+            const res=await fetch(`http://localhost:5000/comments/update/${id}`,{
+                method:'PUT',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'auth-token':localStorage.getItem('token')
+                },
+                body:JSON.stringify({content:content})
+            });
+            const json=await res.json();
+            if(json.success===true){
+                toast.success('Updated Successfully');
+                dispatch(getallPost());
+                if(userid){
+                    dispatch(getpostbyId(userid));
+                }
+            }
+        }catch(error){
+            console.log(error);
+        }
+    }
+}
+
+export const deletePost=(id,userid=null)=>{
+    return async(dispatch)=>{
+        try{
+            const res=await fetch(`http://localhost:5000/posts/delete/${id}`,{
+                method:'DELETE',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'auth-token':localStorage.getItem('token')
+                },
+            });
+            const json=await res.json();
+            if(json.success===true){
+                toast.success('Deleted Successfully');
+                dispatch(getallPost());
+                if(userid){
+                    dispatch(getpostbyId(userid));
+                }
+            }
+        }catch(error){
+            console.log(error);
+        }
+    }
+}
+
+export const deleteComment=(id,userid=null)=>{
+    return async(dispatch)=>{
+        try{
+            const res=await fetch(`http://localhost:5000/comments/delete/${id}`,{
+                method:'DELETE',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'auth-token':localStorage.getItem('token')
+                },
+            });
+            const json=await res.json();
+            if(json.success===true){
+                toast.success('Deleted Successfully');
+                dispatch(getallPost());
+                if(userid){
+                    dispatch(getpostbyId(userid));
+                }
+            }
+        }catch(error){
+            console.log(error);
+        }
+    }
+}
+
 export const setState=(state)=>{
         return{
             type:'setState',
@@ -120,9 +342,10 @@ export const setState=(state)=>{
 }
 
 export const logout=(state)=>{
+    toast.success('Successfully Logout');
     return{
         type:'logout',
-        payload:state
+        payload:state,
     }
 }
 
@@ -140,3 +363,16 @@ export const setProfile=(profile)=>{
     }
 }
 
+export const allPost=(post)=>{
+    return{
+        type:'allPost',
+        payload:post
+    }
+}
+
+export const postbyId=(post)=>{
+    return{
+        type:'postbyId',
+        payload:post
+    }
+}

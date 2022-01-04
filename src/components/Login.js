@@ -24,7 +24,7 @@ export const Login = () => {
 
     return (
         <div>
-            <form className='container w-25 border my-3 bg-secondary text-white' onSubmit={onclick}>
+            <form className='container w-25 border my-3 bg-secondary text-white' style={{minWidth:'300px'}} onSubmit={onclick}>
                 <h1>Login</h1>
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label" >Email address</label>
@@ -36,6 +36,7 @@ export const Login = () => {
                 </div>
                 <button type="submit" className="btn btn-primary mb-1">Login</button>
                 </form>
+                
         </div>
     )
 }

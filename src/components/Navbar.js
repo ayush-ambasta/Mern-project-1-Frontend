@@ -1,11 +1,13 @@
 import React,{useState} from 'react'
-import {Link,useHistory} from 'react-router-dom';
+import {Link,useHistory, useLocation} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {actionCreators} from "../state/index";
 import { useDispatch } from 'react-redux';
 import { search} from '../state/action-creators';
 import { useRef } from 'react';
+import { ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Navbar = () => {
     
@@ -13,11 +15,12 @@ export const Navbar = () => {
     const history=useHistory(); 
     const {logout}=bindActionCreators(actionCreators,dispatch);
     let state=(useSelector(state=>state.state));
-    let user=useSelector(state=>state.profile);
+    let user=useSelector(state=>state.profile) || [];
     let searchResults=(useSelector(state=>state.searchResults));
     const [name,setname]=useState("");
     const ref=useRef(null);
     const close=useRef(null);
+    let location=useLocation();
     let url='/login';
     if(user[0]){
         url=`/profile/${user[0]._id}`;
@@ -45,20 +48,20 @@ export const Navbar = () => {
     }
     return (
         <>
-        <div>
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <div className='sticky-top' style={{width:'100%'}}>
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container-fluid">
-                    <Link className="navbar-brand" to="/">Navbar</Link>
+                    <Link className="navbar-brand" to="/">Mern Project</Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                        <Link className="nav-link active" aria-current="page" to="/">Home</Link>
+                        <Link className={`nav-link ${location.pathname==='/'?'active':""}`} aria-current="page" to="/"><i className="fas fa-home"></i>Home</Link>
                         </li>
                         <li className="nav-item">
-                        <Link className="nav-link" to={`${url}`}>Profile</Link>
+                        <Link className={`nav-link ${location.pathname===url ?'active':""}`} to={`${url}`}><i className="fas fa-users"></i>Profile</Link>
                         </li>
                     </ul>
                     {!state ? <form className="d-flex">
@@ -101,6 +104,7 @@ export const Navbar = () => {
                 </div>
             </div>
             </div>
+            <ToastContainer autoClose={1500}/>
         </>
     )
 }

@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState} from 'react';
 import { useDispatch } from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -24,7 +24,7 @@ export const Signup = () => {
     }
     return (
         <div>
-            <form className='container w-25 border my-3 bg-secondary text-white'>
+            <form className='container w-25 border my-3 bg-secondary text-white' style={{minWidth:'300px'}}>
                 <h1>SignUp</h1>
                 <div className="mb-3" >
                     <label htmlFor="name" className="form-label" >Name</label>

@@ -1,0 +1,32 @@
+.profile-container{
+    display: flex;
+    flex-direction:row;
+}
+.profile-pic{
+    min-width: 200px;
+    max-width: 300px;
+    margin-left: 10px;
+    margin-right: 10%;
+    height: 30%;
+}
+.profile-img{
+    width: 100%;
+    object-fit: contain;
+}
+.post-title{
+    display:flex;
+    justify-content: space-between;
+}
+
+@media only screen and (max-width:740px){
+    .profile-container{
+        display: flex;
+        flex-direction: column;
+    }
+    .profile-pic{
+        margin:auto
+    }
+    .post-container{
+        margin:auto
+    }
+}
