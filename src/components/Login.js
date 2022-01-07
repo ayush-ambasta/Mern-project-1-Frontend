@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { useDispatch } from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -10,6 +10,10 @@ export const Login = () => {
     const dispatch = useDispatch();
     const [data,setdata]=useState({email:"",password:""});
     let state= useSelector(state=>state.state);
+
+    useEffect(() => {
+        document.title='Login'
+    }, []);
 
     if(state){
         return <Redirect to="/"/>

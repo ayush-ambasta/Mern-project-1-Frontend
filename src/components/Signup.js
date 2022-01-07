@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { useDispatch } from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -11,6 +11,10 @@ export const Signup = () => {
     // const {signup}=bindActionCreators(actionCreators,dispatch);
     const [data,setdata]=useState({name:"",email:"",password:""});
     let state= useSelector(state=>state.state);
+
+    useEffect(() => {
+        document.title='SignUp'
+    }, []);
 
     if(state){
         return <Redirect to="/"/>

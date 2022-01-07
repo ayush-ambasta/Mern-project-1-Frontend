@@ -15,6 +15,7 @@ export const Home = () => {
 
     useEffect(() => {
         dispatch(getallPost());
+        document.title='Home';
         // eslint-disable-next-line
     }, []);
     

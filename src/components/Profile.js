@@ -53,6 +53,7 @@ export const Profile = () => {
             const json=await res.json();
             if(json.success===true){
                 setData(json.profile);
+                document.title=`Profile | ${json.profile[0].name}`
             }else{
                 history.push('/');
             }
@@ -207,7 +208,7 @@ export const Profile = () => {
                 {posts.map((post)=>
                 <div className="card post-card my-3 profile-mid"key={post._id}>
                     <div className='post-title'>     
-                    <h5 className="card-title mx-3 my-3"><Link to={`/profile/${post.user._id}`} style={{textDecoration:'none'}}>{user[0].name}</Link></h5>
+                    <h5 className="card-title mx-3 my-3"><Link to={`/profile/${post.user}`} style={{textDecoration:'none'}}>{user[0].name}</Link></h5>
                     <h5 className='my-3 mx-3'>
                     <i type='button' onClick={(e)=>{e.preventDefault();clickeditpost(post._id,post.content)}} className="fas fa-edit mx-3"></i>
                     <i type='button' onClick={(e)=>{e.preventDefault();clickdeletepost(post._id)}} className="fas fa-trash post-delete"></i>
@@ -353,7 +354,7 @@ export const Profile = () => {
                 {/* Post */}
                 {posts.map((post)=>
                 <div className="card post-card my-3"key={post._id}>
-                    <h5 className="card-title mx-3 my-3"><Link to={`/profile/${post.user._id}`} style={{textDecoration:'none'}}>{data[0].name}</Link></h5>
+                    <h5 className="card-title mx-3 my-3"><Link to={`/profile/${post.user}`} style={{textDecoration:'none'}}>{data[0].name}</Link></h5>
                     <hr style={{marginTop:"-10px"}}/>
                     <div className="card-body">
                     <p className="card-text">{post.content}</p>
