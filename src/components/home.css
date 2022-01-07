@@ -68,7 +68,9 @@ video{
         margin-bottom: 10px;
     }
     .post-card{
-        width: 100%;
+        width: 80%;
+        margin:auto;
+        margin-bottom: 20px;
     }
     .img{
         width: 100%;
