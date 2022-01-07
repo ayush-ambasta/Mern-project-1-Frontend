@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useRef } from 'react';
+import {Link} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {useDispatch } from 'react-redux';
 import { Createcomment, deletePost,deleteComment } from '../state/action-creators';
@@ -79,7 +80,7 @@ export const Getallpost = () => {
             {posts.map((post)=>
                 <div className="card post-card" key={post._id}>
                     <div className='post-title'>     
-                    <h5 className="card-title mx-3 my-3">{post.user.name}</h5>
+                    <h5 className="card-title mx-3 my-3"><Link to={`/profile/${post.user._id}`} style={{textDecoration:'none'}}>{post.user.name}</Link></h5>
                     {(post.user._id===currentuser[0]._id)?<h5 className='my-3 mx-3'>
                     <i type='button' onClick={(e)=>{e.preventDefault();clickeditpost(post._id,post.content)}} className="fas fa-edit mx-3"></i>
                     <i type='button' onClick={(e)=>{e.preventDefault();clickdeletepost(post._id)}} className="fas fa-trash post-delete"></i>
@@ -123,7 +124,7 @@ export const Getallpost = () => {
                                     <div className="card my-3" key={comment._id}>
                                     <div className="card-body">
                                       <div className='comment-title'>
-                                        <h6 className="card-subtitle mb-2 text-muted">{comment.user.name}</h6>
+                                        <h6 className="card-subtitle mb-2 text-muted"><Link to={`/profile/${comment.user._id}`} style={{textDecoration:'none'}}>{comment.user.name}</Link></h6>
                                         {(post.user.id===currentuser[0]._id || comment.user._id===currentuser[0]._id)?
                                         <h6>
                                         <i type='button' onClick={(e)=>{e.preventDefault();clickeditcomment(comment._id,comment.content)}} className="fas fa-edit mx-3"></i>

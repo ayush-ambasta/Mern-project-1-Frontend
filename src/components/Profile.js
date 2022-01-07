@@ -1,5 +1,5 @@
 import React,{useRef,useState,useEffect} from 'react'
-import {useParams,Redirect, useHistory} from 'react-router-dom';
+import {useParams,Redirect, useHistory,Link} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {deleteAvatar, updateProfile} from '../state/action-creators';
 import { useDispatch } from 'react-redux';
@@ -207,7 +207,7 @@ export const Profile = () => {
                 {posts.map((post)=>
                 <div className="card post-card my-3 profile-mid"key={post._id}>
                     <div className='post-title'>     
-                    <h5 className="card-title mx-3 my-3">{user[0].name}</h5>
+                    <h5 className="card-title mx-3 my-3"><Link to={`/profile/${post.user._id}`} style={{textDecoration:'none'}}>{user[0].name}</Link></h5>
                     <h5 className='my-3 mx-3'>
                     <i type='button' onClick={(e)=>{e.preventDefault();clickeditpost(post._id,post.content)}} className="fas fa-edit mx-3"></i>
                     <i type='button' onClick={(e)=>{e.preventDefault();clickdeletepost(post._id)}} className="fas fa-trash post-delete"></i>
@@ -251,7 +251,7 @@ export const Profile = () => {
                                     <div className="card my-3" key={comment._id}>
                                     <div className="card-body">
                                     <div className='comment-title'>
-                                        <h6 className="card-subtitle mb-2 text-muted">{comment.user.name}</h6>
+                                        <h6 className="card-subtitle mb-2 text-muted"><Link to={`/profile/${comment.user._id}`} style={{textDecoration:'none'}}>{comment.user.name}</Link></h6>
                                         <h6>
                                         <i type='button' onClick={(e)=>{e.preventDefault();clickeditcomment(comment._id,comment.content)}} className="fas fa-edit mx-3"></i>
                                         <i type='button' onClick={(e)=>{e.preventDefault();clickdeletecomment(comment._id)}} className="fas fa-trash post-delete"></i>
@@ -353,7 +353,7 @@ export const Profile = () => {
                 {/* Post */}
                 {posts.map((post)=>
                 <div className="card post-card my-3"key={post._id}>
-                    <h5 className="card-title mx-3 my-3">{data[0].name}</h5>
+                    <h5 className="card-title mx-3 my-3"><Link to={`/profile/${post.user._id}`} style={{textDecoration:'none'}}>{data[0].name}</Link></h5>
                     <hr style={{marginTop:"-10px"}}/>
                     <div className="card-body">
                     <p className="card-text">{post.content}</p>
@@ -392,7 +392,7 @@ export const Profile = () => {
                                     <div className="card my-3" key={comment._id}>
                                     <div className="card-body">
                                     <div className='comment-title'>
-                                        <h6 className="card-subtitle mb-2 text-muted">{comment.user.name}</h6>
+                                        <h6 className="card-subtitle mb-2 text-muted"><Link to={`/profile/${comment.user._id}`} style={{textDecoration:'none'}}>{comment.user.name}</Link></h6>
                                         {(comment.user._id===currentuser[0]._id)?<h6>
                                         <i type='button' onClick={(e)=>{e.preventDefault();clickeditcomment(comment._id,comment.content)}} className="fas fa-edit mx-3"></i>
                                         <i type='button' onClick={(e)=>{e.preventDefault();clickdeletecomment(comment._id)}} className="fas fa-trash post-delete"></i>
