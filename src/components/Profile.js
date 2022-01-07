@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import {deleteAvatar, updateProfile} from '../state/action-creators';
 import { useDispatch } from 'react-redux';
 import { getpostbyId } from '../state/action-creators';
-import { Createcomment,deletePost,updatePost,deleteComment,updateComment} from '../state/action-creators';
+import { Createcomment,deletePost,updatePost,deleteComment,updateComment,likepost,likecomment} from '../state/action-creators';
 import defaultprofile from '../default/profile/profile.jpg';
 import './profile.css'
 
@@ -175,6 +175,20 @@ export const Profile = () => {
         )
     }
 
+     //userwholikedpost
+     const userlikedpost=(profile,likes)=>{
+        let isPresent=false;
+        likes.forEach((element)=>{if(profile[0]._id === element.user){isPresent=true}});
+        return isPresent;
+    }
+
+    //userwholikedcomment
+    const userlikedcomment=(profile,likes)=>{
+        let isPresent=false;
+        likes.forEach((element)=>{if(profile[0]._id === element.user){isPresent=true}});
+        return isPresent;
+    }
+
     //to show logged in user profile
     if(user[0]._id===id){
             return (
@@ -221,7 +235,9 @@ export const Profile = () => {
                     </div>
                     {/* Comment */}
                     <hr style={{marginBottom:"0px"}}/>
-                    <ul type='none'><li className='comment-btn'><i className="fas fa-comment-alt comment accordion-button collapsed" data-bs-toggle="collapse" data-bs-target={`#a${post._id}`} aria-expanded="false" aria-controls="flush-collapseOne" type='button'>Comment</i></li></ul>                   
+                    <ul type='none' id='posts'>
+                        <li className='posts-like'><i className="far fa-thumbs-up" style={{color:`${userlikedpost(JSON.parse(localStorage.getItem('profile')),post.likes)?'blue':'black'}`}}type='button' onClick={(e)=>{e.preventDefault();dispatch(likepost(post._id,id))}}>{(post.likes).length}</i></li>
+                        <li className='comment-btn'><i className="fas fa-comment-alt comment accordion-button collapsed" data-bs-toggle="collapse" data-bs-target={`#a${post._id}`} aria-expanded="false" aria-controls="flush-collapseOne" type='button'>Comment</i></li></ul>                   
                         <div className="accordion accordion-flush" id="accordionFlushExample">
                         <div className="accordion-item">
                             <div id={`a${post._id}`} className="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
@@ -242,6 +258,7 @@ export const Profile = () => {
                                         </h6>
                                       </div>
                                       <p className="card-text">{comment.content}</p>
+                                      <span><i className="far fa-thumbs-up"  style={{color:`${userlikedcomment(JSON.parse(localStorage.getItem('profile')),comment.likes)?'blue':'black'}`}}type='button' onClick={(e)=>{e.preventDefault();dispatch(likecomment(comment._id,id))}} >{(comment.likes).length}</i></span>
                                     </div>
                                   </div> 
                                 )}
@@ -359,7 +376,9 @@ export const Profile = () => {
                     </div>
                     <hr style={{marginBottom:"0px"}}/>
                     {/* comment */}
-                    <ul type='none'><li className='comment-btn'><i className="fas fa-comment-alt comment accordion-button collapsed" data-bs-toggle="collapse" data-bs-target={`#a${post._id}`} aria-expanded="false" aria-controls="flush-collapseOne" type='button'>Comment</i></li></ul>                   
+                    <ul type='none' id='posts'>
+                    <li className='posts-like'><i className="far fa-thumbs-up" style={{color:`${userlikedpost(JSON.parse(localStorage.getItem('profile')),post.likes)?'blue':'black'}`}}type='button' onClick={(e)=>{e.preventDefault();dispatch(likepost(post._id,id))}}>{(post.likes).length}</i></li>
+                        <li className='comment-btn'><i className="fas fa-comment-alt comment accordion-button collapsed" data-bs-toggle="collapse" data-bs-target={`#a${post._id}`} aria-expanded="false" aria-controls="flush-collapseOne" type='button'>Comment</i></li></ul>                   
                         <div className="accordion accordion-flush" id="accordionFlushExample">
                         <div className="accordion-item">
                             <div id={`a${post._id}`} className="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">

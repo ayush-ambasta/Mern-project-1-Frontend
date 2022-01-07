@@ -334,6 +334,52 @@ export const deleteComment=(id,userid=null)=>{
     }
 }
 
+export const likepost=(id,userid=null)=>{
+    return async(dispatch)=>{
+        try{
+            const res=await fetch(`http://localhost:5000/likes/toggle/?id=${id}&type=post`,{
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'auth-token':localStorage.getItem('token')
+                },
+            });
+            const json=await res.json();
+            if(json.success===true){
+                if(userid){
+                    dispatch(getpostbyId(userid));
+                }
+                dispatch(getallPost());
+            }
+        }catch(error){
+            console.log(error);
+        }
+    }
+}
+
+export const likecomment=(id,userid=null)=>{
+    return async(dispatch)=>{
+        try{
+            const res=await fetch(`http://localhost:5000/likes/toggle/?id=${id}&type=comment`,{
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'auth-token':localStorage.getItem('token')
+                },
+            });
+            const json=await res.json();
+            if(json.success===true){
+                if(userid){
+                    dispatch(getpostbyId(userid));
+                }
+                dispatch(getallPost());
+            }
+        }catch(error){
+            console.log(error);
+        }
+    }
+}
+
 export const setState=(state)=>{
         return{
             type:'setState',

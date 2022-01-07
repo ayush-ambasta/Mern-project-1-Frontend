@@ -30,10 +30,15 @@
 video{
     width: 400px;
 }
+#posts li{
+    display: inline-block;
+}
 .comment-btn{
-    display:inline-block;
     margin-bottom: -50px;
-    margin-left: -32px;
+}
+.posts-like{
+    font-size:20px;
+    margin-left: -10px;
 }
 .post-title,.comment-title{
     display:flex;

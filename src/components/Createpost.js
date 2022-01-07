@@ -16,7 +16,6 @@ export const Createpost = () => {
     const onsubmit=(e)=>{
         e.preventDefault();
         let file=document.getElementById('Postfile');
-        console.log(Content.content," ",file.files[0]);
         dispatch(createPost(Content.content,file.files[0]));
         close.current.click();
     }
