@@ -12,8 +12,10 @@ export const signup=(data)=>{
             });
             const json=await res.json();
             if(json.success===true){
-               localStorage.setItem('token',json.token);
-               dispatch(setState(true));
+                toast.success("Successfully SignedIn");
+                localStorage.setItem('token',json.token);
+                await dispatch(userProfile());
+                dispatch(setState(true));
             }
         }catch(error){
             console.log(error);
@@ -34,7 +36,7 @@ export const login=(data)=>{
             });
             const json=await res.json();
             if(json.success===true){
-               toast.success("Successfully LoggedIn")
+               toast.success("Successfully LoggedIn");
                localStorage.setItem('token',json.token);
                await dispatch(userProfile());
                dispatch(setState(true));
